@@ -12,3 +12,11 @@
 ## steps to create entity
 
 1. Run `typeorm entity:create [path]` command
+
+## environment configuration variables (.env)
+
+- DB_HOST
+- DB_USER
+- DB_PORT
+- DB_PASSWORD
+- DB_NAME
