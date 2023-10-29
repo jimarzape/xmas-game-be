@@ -1,15 +1,15 @@
 import express from "express";
 import { AppDataSource } from "./data-source";
+import { app, httpSocket } from "./config/express";
+
+const PORT = process.env.PORT || 5000;
 
 AppDataSource.initialize()
   .then(() => {
     console.log("database connection created");
-    const app = express();
-    app.use(express.json());
-    app.get("/", (req, res) => {
-      return res.json("Established connection!");
+    app.listen(PORT, () => {
+      console.log(`Server running at ${PORT}`);
     });
-    return app.listen(process.env.PORT);
   })
   .catch((error) => {
     console.log(`Error ${error}`);
