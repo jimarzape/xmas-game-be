@@ -26,6 +26,22 @@ const login: IController = async (req, res) => {
   }
 };
 
+const logout: IController = async (req, res) => {
+  const user = await IdentiFy(req);
+  if (user) {
+    const cookie = null;
+
+    res.clearCookie("user");
+    apiResponse.result(res, { message: "user logout" }, httpStatusCodes.OK);
+  } else {
+    apiResponse.error(
+      res,
+      httpStatusCodes.BAD_REQUEST,
+      locale.INVALID_CREDENTIALS
+    );
+  }
+};
+
 const register: IController = async (req, res) => {
   let user;
   try {
@@ -126,4 +142,5 @@ export default {
   self,
   updateUser,
   viewProfile,
+  logout,
 };

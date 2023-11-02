@@ -8,6 +8,7 @@ import { celebrate } from "celebrate";
 
 router.post("/create", celebrate(userSchema.register), userController.register);
 router.post("/login", celebrate(userSchema.login), userController.login);
+router.post("/logout", userController.logout);
 router.post(
   "/user/:id",
   celebrate(userSchema.update),
