@@ -1,5 +1,6 @@
 import * as express from "express";
-import userAuth from "./user/index.troute";
+import userAuth from "./user/index.route";
+import categoryRoute from "./category/index.route";
 
 const router = express.Router();
 
@@ -8,6 +9,8 @@ router.get("/", (req, res) => {
 });
 
 router.use("/user", userAuth);
+
+router.use("/category", categoryRoute);
 
 router.use(express.static("public"));
 router.use(express.static("files"));
