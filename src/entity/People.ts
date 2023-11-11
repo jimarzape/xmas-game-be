@@ -4,31 +4,40 @@ import {
   DeleteDateColumn,
   Entity,
   JoinColumn,
+  ManyToOne,
   OneToMany,
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from "typeorm";
 import { FamilyGroup } from "./FamilyGroup";
-import { Group } from "./Group";
+import { Category } from "./Category";
 
 @Entity()
 export class People {
   @PrimaryGeneratedColumn()
   id: number;
 
-  @OneToMany((type) => FamilyGroup, (family) => family.id)
+  @ManyToOne((type) => FamilyGroup, (family) => family.id, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+    eager: true,
+  })
   @JoinColumn({ name: "family_id" })
   family: FamilyGroup;
 
   @Column()
   family_id: number;
 
-  @OneToMany((type) => Group, (group) => group.id)
-  @JoinColumn({ name: "group_id" })
-  group: Group;
+  @ManyToOne((type) => Category, (category) => category.id, {
+    onDelete: "CASCADE",
+    onUpdate: "CASCADE",
+    eager: true,
+  })
+  @JoinColumn({ name: "category_id" })
+  category: Category;
 
   @Column()
-  group_id: number;
+  category_id: number;
 
   @Column({ nullable: true })
   first_name: string;
@@ -42,7 +51,7 @@ export class People {
   @Column({ nullable: true })
   age: number;
 
-  @Column({ nullable: true })
+  @Column({ nullable: true, type: "longtext" })
   avatar: string;
 
   @CreateDateColumn()

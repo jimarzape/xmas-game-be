@@ -1,6 +1,8 @@
 import * as express from "express";
 import userAuth from "./user/index.route";
 import categoryRoute from "./category/index.route";
+import familyRoute from "./family/index.route";
+import peopleRoute from "./people/index.route";
 
 const router = express.Router();
 
@@ -11,6 +13,10 @@ router.get("/", (req, res) => {
 router.use("/user", userAuth);
 
 router.use("/category", categoryRoute);
+
+router.use("/family", familyRoute);
+
+router.use("/people", peopleRoute);
 
 router.use(express.static("public"));
 router.use(express.static("files"));
