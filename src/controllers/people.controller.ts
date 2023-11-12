@@ -2,7 +2,11 @@ import httpStatusCodes from "http-status-codes";
 import userService from "../services/user.service";
 import IController from "../types/IController";
 import apiResponse from "../utilities/apiResponse";
-import { peopleCreateInt, peopleUpdateInt } from "../interfaces";
+import {
+  peopleCreateInt,
+  peopleListParam,
+  peopleUpdateInt,
+} from "../interfaces";
 import peopleService from "../services/people.service";
 
 const create: IController = async (req, res) => {
@@ -55,7 +59,24 @@ const softDelete: IController = async (req, res) => {
 
 const list: IController = async (req, res) => {
   try {
-    const data = await peopleService.list();
+    const param = {
+      take: Number(req.body.take),
+      page: Number(req.body.page),
+      query: req.body.query,
+      category_id: Number(req.body.category_id),
+      family_id: Number(req.body.family_id),
+      gender: req.body.gender,
+    } as peopleListParam;
+    const data = await peopleService.list(param);
+    apiResponse.result(res, data, httpStatusCodes.OK);
+  } catch (e) {
+    apiResponse.error(res, httpStatusCodes.BAD_REQUEST, e.message);
+  }
+};
+
+const setWon: IController = async (req, res) => {
+  try {
+    const data = await peopleService.setWon(Number(req.params.id));
     apiResponse.result(res, data, httpStatusCodes.OK);
   } catch (e) {
     apiResponse.error(res, httpStatusCodes.BAD_REQUEST, e.message);
@@ -67,4 +88,5 @@ export default {
   update,
   softDelete,
   list,
+  setWon,
 };

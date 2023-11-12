@@ -1,6 +1,11 @@
 import { AppDataSource } from "../data-source";
 import { People } from "../entity/People";
-import { peopleCreateInt, peopleUpdateInt } from "../interfaces";
+import {
+  peopleCreateInt,
+  peopleListParam,
+  peopleUpdateInt,
+} from "../interfaces";
+import { paginateResponse } from "../utilities/paginateResponse";
 
 const create = async (params: peopleCreateInt) => {
   const { family_id, category_id, first_name, last_name, gender, age, avatar } =
@@ -54,12 +59,57 @@ const softDelete = async (id: number) => {
     .execute();
 };
 
-const list = async () => {
-  return await AppDataSource.getRepository(People)
+const list = async (params: peopleListParam) => {
+  const { take, page, query, gender, family_id, category_id } = params;
+  const skip = (page - 1) * take;
+  const init = AppDataSource.getRepository(People)
     .createQueryBuilder("people")
     .leftJoinAndSelect("people.family", "family")
     .leftJoinAndSelect("people.category", "category")
-    .getMany();
+    .where("people.isActive = 1")
+    .andWhere("people.is_won = 0");
+
+  if (gender != "") init.andWhere("people.gender = :gender", { gender });
+  if (family_id != 0)
+    init.andWhere("people.family_id = :family_id", { family_id });
+  if (category_id != 0)
+    init.andWhere("people.category_id = :category_id", { category_id });
+
+  if (query != "")
+    init.andWhere(
+      `(people.first_name LIKE "${query}" OR people.last_name LIKE "${query}")`
+    );
+
+  //   init.andWhere("people.is_hbd = 1");
+
+  const data = await init
+    .take(take)
+    .skip(skip)
+    .orderBy("people.first_name")
+    .getManyAndCount();
+
+  return paginateResponse(data, page, take);
+};
+
+const setWon = async (id: number) => {
+  return await AppDataSource.getRepository(People)
+    .createQueryBuilder()
+    .update()
+    .set({
+      isWon: true,
+    })
+    .where("id=:id", { id })
+    .execute();
+};
+
+const clearAllWinning = async () => {
+  return await AppDataSource.getRepository(People)
+    .createQueryBuilder()
+    .update()
+    .set({
+      isWon: true,
+    })
+    .execute();
 };
 
 export default {
@@ -67,4 +117,6 @@ export default {
   update,
   list,
   softDelete,
+  setWon,
+  clearAllWinning,
 };

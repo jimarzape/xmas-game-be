@@ -36,3 +36,12 @@ export interface peopleUpdateInt {
   age: number;
   avatar: string;
 }
+
+export interface peopleListParam {
+  take: number;
+  page: number;
+  query: string;
+  family_id: number;
+  category_id: number;
+  gender: string;
+}

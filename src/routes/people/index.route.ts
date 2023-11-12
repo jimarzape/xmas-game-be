@@ -13,6 +13,8 @@ router.put(
   peopleController.update
 );
 
+router.put("/set-won/:id", peopleController.setWon);
+
 router.post("/list", peopleController.list);
 
 router.delete("/delete/:id", peopleController.softDelete);

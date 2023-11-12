@@ -11,6 +11,7 @@ import {
 } from "typeorm";
 import { FamilyGroup } from "./FamilyGroup";
 import { Category } from "./Category";
+import { boolean } from "joi";
 
 @Entity()
 export class People {
@@ -53,6 +54,15 @@ export class People {
 
   @Column({ nullable: true, type: "longtext" })
   avatar: string;
+
+  @Column({ type: "boolean", default: true })
+  isActive: boolean;
+
+  @Column({ type: "boolean", default: false })
+  isHbd: boolean;
+
+  @Column({ type: "boolean", default: false })
+  isWon: boolean;
 
   @CreateDateColumn()
   created_at: Date;
