@@ -45,3 +45,8 @@ export interface peopleListParam {
   category_id: number;
   gender: string;
 }
+
+export interface gameCreateInt {
+  title: string;
+  link: string | null;
+}
