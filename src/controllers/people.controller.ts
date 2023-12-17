@@ -74,6 +74,20 @@ const list: IController = async (req, res) => {
   }
 };
 
+const rafflelist: IController = async (req, res) => {
+  try {
+    const param = {
+      category_id: Number(req.body.category_id),
+      family_id: Number(req.body.family_id),
+      gender: req.body.gender,
+    } as peopleListParam;
+    const data = await peopleService.rafflelist(param);
+    apiResponse.result(res, data, httpStatusCodes.OK);
+  } catch (e) {
+    apiResponse.error(res, httpStatusCodes.BAD_REQUEST, e.message);
+  }
+};
+
 const setWon: IController = async (req, res) => {
   try {
     const data = await peopleService.setWon(Number(req.params.id));
@@ -89,4 +103,5 @@ export default {
   softDelete,
   list,
   setWon,
+  rafflelist,
 };

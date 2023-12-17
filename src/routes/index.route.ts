@@ -3,6 +3,7 @@ import userAuth from "./user/index.route";
 import categoryRoute from "./category/index.route";
 import familyRoute from "./family/index.route";
 import peopleRoute from "./people/index.route";
+import gameRoute from "./game/index.route";
 
 const router = express.Router();
 
@@ -17,6 +18,8 @@ router.use("/category", categoryRoute);
 router.use("/family", familyRoute);
 
 router.use("/people", peopleRoute);
+
+router.use("/game", gameRoute);
 
 router.use(express.static("public"));
 router.use(express.static("files"));

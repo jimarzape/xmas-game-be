@@ -4,6 +4,8 @@ export default {
     [Segments.BODY]: {
       title: Joi.string().required(),
       link: Joi.string().required(),
+      participants: Joi.number().required(),
+      teams: Joi.number().required(),
     },
   },
 
@@ -11,6 +13,8 @@ export default {
     [Segments.BODY]: {
       title: Joi.string().required(),
       link: Joi.string().required(),
+      participants: Joi.number().required(),
+      teams: Joi.number().required(),
     },
   },
 };

@@ -49,4 +49,6 @@ export interface peopleListParam {
 export interface gameCreateInt {
   title: string;
   link: string | null;
+  participants: number;
+  teams: number;
 }

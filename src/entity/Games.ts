@@ -18,6 +18,12 @@ export class Games {
   @Column({ nullable: true })
   link: string;
 
+  @Column({ default: 0 })
+  participants: number;
+
+  @Column({ default: 0 })
+  teams: number;
+
   @CreateDateColumn()
   created_at: Date;
 

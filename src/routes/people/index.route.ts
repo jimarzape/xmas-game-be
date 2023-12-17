@@ -17,6 +17,8 @@ router.put("/set-won/:id", peopleController.setWon);
 
 router.post("/list", peopleController.list);
 
+router.post("/raffle-list", peopleController.rafflelist);
+
 router.delete("/delete/:id", peopleController.softDelete);
 
 export default router;

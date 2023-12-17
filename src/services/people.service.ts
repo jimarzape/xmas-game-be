@@ -66,8 +66,7 @@ const list = async (params: peopleListParam) => {
     .createQueryBuilder("people")
     .leftJoinAndSelect("people.family", "family")
     .leftJoinAndSelect("people.category", "category")
-    .where("people.isActive = 1")
-    .andWhere("people.is_won = 0");
+    .where("people.isActive = 1");
 
   if (gender != "") init.andWhere("people.gender = :gender", { gender });
   if (family_id != 0)
@@ -112,6 +111,24 @@ const clearAllWinning = async () => {
     .execute();
 };
 
+const rafflelist = async (params: peopleListParam) => {
+  const { take, page, query, gender, family_id, category_id } = params;
+  const skip = (page - 1) * take;
+  const init = AppDataSource.getRepository(People)
+    .createQueryBuilder("people")
+    .leftJoinAndSelect("people.family", "family")
+    .leftJoinAndSelect("people.category", "category")
+    .where("people.isActive = 1")
+    .andWhere("people.is_won = 0");
+
+  if (gender != "") init.andWhere("people.gender = :gender", { gender });
+
+  if (category_id != 0)
+    init.andWhere("people.category_id = :category_id", { category_id });
+
+  return await init.getMany();
+};
+
 export default {
   create,
   update,
@@ -119,4 +136,5 @@ export default {
   softDelete,
   setWon,
   clearAllWinning,
+  rafflelist,
 };

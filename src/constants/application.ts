@@ -10,5 +10,9 @@ export default {
   env: {
     authSecret: process.env.TOKEN_SECRET_KEY || "test",
   },
-  authorizationIgnorePath: [`${base}/user/login`, `${base}`],
+  authorizationIgnorePath: [
+    `${base}/user/login`,
+    `${base}`,
+    `${base}/game/files/*`,
+  ],
 };
