@@ -12,6 +12,7 @@ export default {
   },
   authorizationIgnorePath: [
     `${base}/user/login`,
+    `${base}/user/logout`,
     `${base}`,
     `${base}/game/files/*`,
   ],
