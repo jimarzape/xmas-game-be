@@ -15,6 +15,8 @@ router.put(
 
 router.put("/set-won/:id", peopleController.setWon);
 
+router.post("/set-excluded/:id", peopleController.setExclude);
+
 router.post("/list", peopleController.list);
 
 router.post("/raffle-list", peopleController.rafflelist);

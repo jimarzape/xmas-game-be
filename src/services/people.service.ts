@@ -1,6 +1,7 @@
 import { AppDataSource } from "../data-source";
 import { People } from "../entity/People";
 import {
+  excludeInt,
   peopleCreateInt,
   peopleListParam,
   peopleUpdateInt,
@@ -112,14 +113,19 @@ const clearAllWinning = async () => {
 };
 
 const rafflelist = async (params: peopleListParam) => {
-  const { take, page, query, gender, family_id, category_id } = params;
+  const { take, page, query, gender, family_id, category_id, game } = params;
   const skip = (page - 1) * take;
   const init = AppDataSource.getRepository(People)
     .createQueryBuilder("people")
     .leftJoinAndSelect("people.family", "family")
     .leftJoinAndSelect("people.category", "category")
     .where("people.isActive = 1")
-    .andWhere("people.is_won = 0");
+
+    .andWhere("people.exclude = 0");
+
+  if (!game) {
+    init.andWhere("people.is_won = 0");
+  }
 
   if (gender != "") init.andWhere("people.gender = :gender", { gender });
 
@@ -127,6 +133,18 @@ const rafflelist = async (params: peopleListParam) => {
     init.andWhere("people.category_id = :category_id", { category_id });
 
   return await init.getMany();
+};
+
+const setExclude = async (param: excludeInt) => {
+  const { id, exclude } = param;
+  await AppDataSource.getRepository(People)
+    .createQueryBuilder()
+    .update()
+    .set({
+      exclude,
+    })
+    .where("id = :id", { id })
+    .execute();
 };
 
 export default {
@@ -137,4 +155,5 @@ export default {
   setWon,
   clearAllWinning,
   rafflelist,
+  setExclude,
 };

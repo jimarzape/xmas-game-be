@@ -64,6 +64,9 @@ export class People {
   @Column({ type: "boolean", default: false })
   isWon: boolean;
 
+  @Column({ type: "boolean", default: false })
+  exclude: boolean;
+
   @CreateDateColumn()
   created_at: Date;
 

@@ -3,6 +3,7 @@ import userService from "../services/user.service";
 import IController from "../types/IController";
 import apiResponse from "../utilities/apiResponse";
 import {
+  excludeInt,
   peopleCreateInt,
   peopleListParam,
   peopleUpdateInt,
@@ -80,6 +81,7 @@ const rafflelist: IController = async (req, res) => {
       category_id: Number(req.body.category_id),
       family_id: Number(req.body.family_id),
       gender: req.body.gender,
+      game: Boolean(req.body.game),
     } as peopleListParam;
     const data = await peopleService.rafflelist(param);
     apiResponse.result(res, data, httpStatusCodes.OK);
@@ -97,6 +99,19 @@ const setWon: IController = async (req, res) => {
   }
 };
 
+const setExclude: IController = async (req, res) => {
+  try {
+    const param = {
+      id: Number(req.params.id),
+      exclude: Boolean(req.body.exclude),
+    } as excludeInt;
+    await peopleService.setExclude(param);
+    apiResponse.result(res, { message: "Exluced changed" }, httpStatusCodes.OK);
+  } catch (e) {
+    apiResponse.error(res, httpStatusCodes.BAD_REQUEST, e.message);
+  }
+};
+
 export default {
   create,
   update,
@@ -104,4 +119,5 @@ export default {
   list,
   setWon,
   rafflelist,
+  setExclude,
 };

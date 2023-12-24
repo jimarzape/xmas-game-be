@@ -44,6 +44,7 @@ export interface peopleListParam {
   family_id: number;
   category_id: number;
   gender: string;
+  game: boolean | null;
 }
 
 export interface gameCreateInt {
@@ -51,4 +52,9 @@ export interface gameCreateInt {
   link: string | null;
   participants: number;
   teams: number;
+}
+
+export interface excludeInt {
+  id: number;
+  exclude: boolean;
 }
